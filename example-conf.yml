@@ -1,0 +1,21 @@
+agent:
+    listen-ip: "192.168.3.104"
+    listen-port: "11050"
+
+items:
+    - type: "service"
+      key: "samba-server"
+      name: "Samba server"
+      service: "samba"
+
+    - type: "service"
+      key: "firewall"
+      name: "Firewall"
+      service: "ufw"
+
+#    - type: "partition"
+#      key: "postgresql-partition"
+#      name: "PostgreSQL data"
+#      mountpoint: "/var"
+#      min-space-warn: 15
+#      min-space-crit: 5
