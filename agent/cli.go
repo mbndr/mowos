@@ -1,6 +1,9 @@
 package agent
 
 import (
+    "net"
+    "bufio"
+
     "github.com/pkg/errors"
 
     "github.com/urfave/cli"
@@ -25,11 +28,8 @@ func NewCliApp() *cli.App {
     app.Action = func(c *cli.Context) error {
         mowos.Log.Infof("starting %s version %s", c.App.Name, c.App.Version)
 
-        // only for dev purpose
-        //configPath := "config/linus-agent.yml"
-        configPath := c.String("config")
-
         // read config
+        configPath := c.String("config")
         mowos.Log.Debug("using ", configPath)
         err := loadConfigFile(configPath)
         if err != nil {
@@ -52,17 +52,55 @@ func NewCliApp() *cli.App {
 
         disp.logItems()
 
-        // TO BE CALLED ON SERVER REQUEST
-        ret := disp.getValues()
-        // prettier print
-        for k, s := range ret {
-            mowos.Log.Debugf("%s: %s (%d)", k, s.Value, s.Status)
-        }
-        //mowos.Log.Debugf("%#v", ret)
-
         // start tcp server
+        l, err := net.Listen("tcp", config.Agent.ListenIP+":"+config.Agent.ListenPort)
+        if err != nil {
+            return err
+        }
+        defer l.Close()
+
+        mowos.Log.Infof("listening on tcp %s:%s", config.Agent.ListenIP, config.Agent.ListenPort)
+
+        // save memory
+        config = nil
+
+        // accept connections
+        for {
+            conn, err := l.Accept()
+            if err != nil {
+                mowos.Log.Error("error accepting: ", err.Error())
+            }
+            go handleRequest(conn, disp)
+        }
 
         return nil
     }
     return app
+}
+
+// handle an incoming request from a mowos-monitor
+func handleRequest(conn net.Conn, disp *dispatcher) {
+    defer func() {
+        mowos.Log.Debug("closing connection to " + conn.RemoteAddr().String())
+        conn.Close()
+    }()
+    mowos.Log.Debug("new connection to " + conn.RemoteAddr().String())
+
+    // read message
+    msg, err := mowos.ReadBytes(bufio.NewReader(conn))
+    if err != nil {
+        mowos.Log.Error(errors.Wrap(err, "error reading"))
+    }
+
+    mowos.Log.Debugf("%#v", string(msg))
+
+    // send reply
+    if string(msg) == "REQUEST" {
+        itemResp, err := disp.getItemResponsesBytes()
+        if err != nil {
+            mowos.Log.Error(errors.Wrap(err, "error getting response"))
+        }
+
+        mowos.SendBytes(conn, itemResp)
+    }
 }

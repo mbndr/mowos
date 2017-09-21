@@ -1,11 +1,11 @@
 package mowos
 
-type itemStatusCode uint8
+type itemStatusCode string
 
 const (
-    OK itemStatusCode = iota
-    WARN
-    CRIT
+    OK itemStatusCode = "ok"
+    WARN itemStatusCode = "warning"
+    CRIT itemStatusCode = "critical"
 )
 
 // ItemStatus is returned from each item and sent to the monitor

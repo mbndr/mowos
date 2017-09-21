@@ -20,18 +20,17 @@ type item interface {
 // getItem returns an item depending on the 'type' key
 func getItem(itemData map[string]interface{}) item {
     var item item
-    // get item
+    
+    // get item by type
     switch itemData["type"] {
     case "service":
         item = &serviceItem{}
-    //case "partition":
-    //    item = &serviceItem{}
     }
-    // return nil if item not valid
-    if item == nil {
-        return nil
+
+    // add params if valid item was found
+    if item != nil {
+        item.setParams(itemData)
     }
-    // fill item
-    item.setParams(itemData)
+
     return item
 }

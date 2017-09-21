@@ -1,5 +1,5 @@
 agent:
-    listen-ip: "192.168.3.104"
+    listen-ip: "0.0.0.0"
     listen-port: "11050"
 
 items:
