@@ -1,5 +1,7 @@
 # Mowos
 
+![goreportcard](https://goreportcard.com/badge/github.com/mbndr/mowos)
+
 **ATTENTION**  
 This is very very very NOT working code!  
 It's recently under development!  

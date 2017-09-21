@@ -1,10 +1,10 @@
 package mowos
 
 import (
-    "io"
-    "net"
-    "bufio"
-    "bytes"
+	"bufio"
+	"bytes"
+	"io"
+	"net"
 )
 
 var stopChar = []byte("\r\n\r\n")
@@ -14,7 +14,7 @@ var stopChar = []byte("\r\n\r\n")
 // Trims stop chars
 func ReadBytes(r *bufio.Reader) ([]byte, error) {
 
-    var buf bytes.Buffer
+	var buf bytes.Buffer
 
 	for {
 		b, err := r.ReadByte()
@@ -33,11 +33,11 @@ func ReadBytes(r *bufio.Reader) ([]byte, error) {
 
 	}
 
-    return bytes.TrimSuffix(buf.Bytes(), stopChar), nil
+	return bytes.TrimSuffix(buf.Bytes(), stopChar), nil
 }
 
 // send packet over tcp
 func SendBytes(conn net.Conn, data []byte) {
 	conn.Write(data)
-    conn.Write(stopChar)
+	conn.Write(stopChar)
 }
