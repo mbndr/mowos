@@ -1,6 +1,6 @@
 # Mowos
 
-![goreportcard](https://goreportcard.com/badge/github.com/mbndr/mowos)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mbndr/mowos)](https://goreportcard.com/report/github.com/mbndr/mowos)
 
 **ATTENTION**  
 This is very very very NOT working code!  
