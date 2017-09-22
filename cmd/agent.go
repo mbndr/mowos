@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	mowos.InitLog("agent ", 0)
+	mowos.InitLog()
 
 	cli := agent.NewCliApp()
 	err := cli.Run(os.Args)

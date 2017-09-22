@@ -8,10 +8,10 @@ import (
 var Log *logo.Logger
 
 // InitLog initiates the logger
-func InitLog(prefix string, level int) {
-	cliRec := logo.NewReceiver(os.Stderr, prefix)
+func InitLog() {
+	cliRec := logo.NewReceiver(os.Stderr, "")
 	cliRec.Color = true
-	cliRec.Level = logo.Itol(level)
+	cliRec.Level = logo.INFO
 
 	Log = logo.NewLogger(cliRec)
 }

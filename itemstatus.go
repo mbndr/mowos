@@ -1,5 +1,8 @@
 package mowos
 
+// AgentResponse is sent (marshalled) from the agent to the host
+type AgentResponse map[string]ItemStatus
+
 type itemStatusCode string
 
 const (

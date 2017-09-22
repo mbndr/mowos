@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	mowos.InitLog("monitor ", 0)
+	mowos.InitLog()
 
 	cli := monitor.NewCliApp()
 	err := cli.Run(os.Args)

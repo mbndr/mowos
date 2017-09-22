@@ -1,11 +1,9 @@
 package monitor
 
 import (
-	"bufio"
-	"github.com/mbndr/mowos"
-	"github.com/pkg/errors"
 	"github.com/urfave/cli"
-	"net"
+
+	"github.com/mbndr/mowos"
 )
 
 // TODO compile in
@@ -22,35 +20,23 @@ func NewCliApp() *cli.App {
 			Value: "config/laptop-monitor.yml",
 			Usage: "config file to load",
 		},
+		cli.BoolFlag{
+			Name:  "verbose, vv",
+			Usage: "show debug output",
+		},
 	}
 	app.Action = func(c *cli.Context) error {
-		mowos.Log.Infof("starting %s version %s", c.App.Name, c.App.Version)
-
-		// read config
-		configPath := c.String("config")
-		mowos.Log.Debug("using ", configPath)
-		err := loadConfigFile(configPath)
-		if err != nil {
-			return errors.Wrap(err, "read config file")
-		}
-
-		// start web server
-
-		// DEBUG: send one request
-		addr := config.Hosts[0].IP + ":" + config.Hosts[0].Port
-		conn, err := net.Dial("tcp", addr)
+		mowos.Log.SetPrefix("bootstrap")
+		err := bootstrapMonitor(c)
 		if err != nil {
 			return err
 		}
 
-		conn.Write([]byte("REQUEST\r\n\r\n"))
-
-		reply, err := mowos.ReadBytes(bufio.NewReader(conn))
+		mowos.Log.SetPrefix("monitor")
+		err = runMonitor(c)
 		if err != nil {
-			mowos.Log.Error(errors.Wrap(err, "error reading"))
+			return err
 		}
-
-		mowos.Log.Debugf("%#v", string(reply))
 
 		return nil
 	}
