@@ -15,3 +15,10 @@ func InitLog() {
 
 	Log = logo.NewLogger(cliRec)
 }
+
+// SetLogLevel sets the verbose debug level
+func SetLogLevel(verbose bool) {
+	if verbose {
+		Log.SetLevel(logo.DEBUG)
+	}
+}

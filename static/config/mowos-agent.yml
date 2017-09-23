@@ -12,10 +12,3 @@ items:
       key: "firewall"
       name: "Firewall"
       service: "ufw"
-
-#    - type: "partition"
-#      key: "postgresql-partition"
-#      name: "PostgreSQL data"
-#      mountpoint: "/var"
-#      min-space-warn: 15
-#      min-space-crit: 5

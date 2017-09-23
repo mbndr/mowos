@@ -1,0 +1,5 @@
+hosts:
+    - name: "Homeserver"
+      description: "Small home server (RPI) for Samba"
+      ip: "10.0.40.11"
+      port: "11050"

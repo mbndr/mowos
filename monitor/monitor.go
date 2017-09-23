@@ -8,15 +8,12 @@ import (
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
 
-	"github.com/mbndr/logo"
 	"github.com/mbndr/mowos"
 )
 
 // does bootstrapping stuff to reduce complexity in main function
 func bootstrapMonitor(c *cli.Context) error {
-	if c.Bool("verbose") {
-		mowos.Log.SetLevel(logo.DEBUG)
-	}
+	mowos.SetLogLevel(c.Bool("verbose"))
 
 	// read config
 	configPath := c.String("config")

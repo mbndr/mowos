@@ -17,13 +17,16 @@ func NewCliApp() *cli.App {
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "config, c",
-			Value: "config/laptop-monitor.yml",
+			Value: mowos.DefaultConfigPath() + "/mowos-monitor.yml",
 			Usage: "config file to load",
 		},
 		cli.BoolFlag{
 			Name:  "verbose, vv",
 			Usage: "show debug output",
 		},
+	}
+	app.Commands = []cli.Command{
+		mowos.CreateDefaultConfigCommand("mowos-monitor.yml"),
 	}
 	app.Action = func(c *cli.Context) error {
 		mowos.Log.SetPrefix("bootstrap")

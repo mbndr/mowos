@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"net"
 
-	"github.com/mbndr/logo"
 	"github.com/mbndr/mowos"
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
@@ -15,9 +14,7 @@ var disp *dispatcher
 
 // does bootstrapping stuff to reduce complexity in main function
 func bootstrapAgent(c *cli.Context) error {
-	if c.Bool("verbose") {
-		mowos.Log.SetLevel(logo.DEBUG)
-	}
+	mowos.SetLogLevel(c.Bool("verbose"))
 
 	// read config
 	configPath := c.String("config")
