@@ -40,7 +40,7 @@ func runMonitor(c *cli.Context) error {
 	}
 
 	// send to agent
-	conn.Write([]byte("REQUEST\r\n\r\n"))
+	mowos.SendBytes(conn, []byte("REQUEST"))
 
 	// get raw response
 	raw, err := mowos.ReadBytes(bufio.NewReader(conn))

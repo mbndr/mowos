@@ -10,8 +10,7 @@ import (
 var stopChar = []byte("\r\n\r\n")
 
 // ReadBytes reads the bytes from a connection until the end symbol appears
-// Reader as param so that unit tests will be easier
-// Trims stop chars
+// Reader as param so that unit tests will be easier.
 func ReadBytes(r *bufio.Reader) ([]byte, error) {
 
 	var buf bytes.Buffer
@@ -33,7 +32,8 @@ func ReadBytes(r *bufio.Reader) ([]byte, error) {
 
 	}
 
-	return bytes.TrimSuffix(buf.Bytes(), stopChar), nil
+	trimmed := bytes.TrimSuffix(buf.Bytes(), stopChar)
+	return trimmed, nil
 }
 
 // SendBytes sends data over tcp
