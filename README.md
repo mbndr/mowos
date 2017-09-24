@@ -3,10 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/mbndr/mowos)](https://goreportcard.com/report/github.com/mbndr/mowos)
 
 **ATTENTION**  
-This is very very very NOT working code!  
-It's recently under development!  
-Things may appear or disappear!  
-All text below this is coming from the future and just tells how it should work and be!
+This is very early in development and not ready for production yet!
 
 > Goal of this project is to create a tool which helps monitoring small infrastructures with a file based configuration.
 

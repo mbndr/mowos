@@ -36,7 +36,7 @@ func ReadBytes(r *bufio.Reader) ([]byte, error) {
 	return bytes.TrimSuffix(buf.Bytes(), stopChar), nil
 }
 
-// send packet over tcp
+// SendBytes sends data over tcp
 func SendBytes(conn net.Conn, data []byte) {
 	conn.Write(data)
 	conn.Write(stopChar)

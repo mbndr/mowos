@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// Log is the log object used
 var Log *logo.Logger
 
 // InitLog initiates the logger

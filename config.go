@@ -30,7 +30,7 @@ func DefaultConfigPath() string {
 	path := os.Getenv("XDG_CONFIG_HOME")
 
 	if path == "" {
-		path = "$HOME/.config"
+		path = os.Getenv("HOME") + "/.config"
 	}
 
 	return filepath.Join(path, "mowos")

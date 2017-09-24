@@ -6,8 +6,8 @@ import (
 	"github.com/mbndr/mowos"
 )
 
-// TODO compile in
-var Version string = "0.0.1-dev"
+// Version of the agent
+var Version string = "0.0.0-dev"
 
 func NewCliApp() *cli.App {
 	app := cli.NewApp()

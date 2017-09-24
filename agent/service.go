@@ -23,7 +23,7 @@ func (s *serviceItem) getParam(k string) interface{} {
 	return s.params[k]
 }
 
-// get Response checks weather the service is running or not
+// get Response checks wether the service is running or not
 func (s *serviceItem) getResponse() mowos.ItemStatus {
 	var res mowos.ItemStatus
 

@@ -44,7 +44,6 @@ func bootstrapAgent(c *cli.Context) error {
 
 // runs the agent
 func runAgent(c *cli.Context) error {
-	mowos.Log.SetPrefix("agent")
 	mowos.Log.Infof("starting %s version %s", c.App.Name, c.App.Version)
 
 	addr := config.Agent.ListenIP + ":" + config.Agent.ListenPort
