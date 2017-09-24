@@ -14,7 +14,7 @@ type dispatcher struct {
 
 // get the response of each item the dispatcher holds
 func (d *dispatcher) getItemResponses() mowos.AgentResponse {
-	values := make(map[string]mowos.ItemStatus)
+	values := make(mowos.AgentResponse)
 
 	var wg sync.WaitGroup
 

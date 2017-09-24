@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"io"
-	"net"
 )
 
 var stopChar = []byte("\r\n\r\n")
@@ -37,7 +36,8 @@ func ReadBytes(r *bufio.Reader) ([]byte, error) {
 }
 
 // SendBytes sends data over tcp
-func SendBytes(conn net.Conn, data []byte) {
-	conn.Write(data)
-	conn.Write(stopChar)
+func SendBytes(w io.Writer, data []byte) {
+	w.Write(data)
+	w.Write(stopChar)
+	//Log.Debugf("wrote %d bytes", nm + ne)
 }
