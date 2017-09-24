@@ -206,9 +206,9 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"config": &bintree{nil, map[string]*bintree{
-		"mowos-agent.yml":   &bintree{configMowosAgentYml, map[string]*bintree{}},
-		"mowos-monitor.yml": &bintree{configMowosMonitorYml, map[string]*bintree{}},
+	"config": {nil, map[string]*bintree{
+		"mowos-agent.yml":   {configMowosAgentYml, map[string]*bintree{}},
+		"mowos-monitor.yml": {configMowosMonitorYml, map[string]*bintree{}},
 	}},
 }}
 
