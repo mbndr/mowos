@@ -86,6 +86,10 @@ func handleRequest(conn net.Conn, disp *dispatcher) {
 		mowos.Log.Error(errors.Wrap(err, "error reading"))
 	}
 
+	// CRYPTO
+	// strip identity
+	// decrypt with key of identity
+
 	mowos.Log.Debugf("%#v", string(msg))
 
 	// send reply

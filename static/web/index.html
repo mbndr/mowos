@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mowos-Monitor</title>
+        <link rel="stylesheet" href="css/vendor/semantic.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+
+        <template id="host-box">
+            <tr>
+                <td>
+                    <router-link :to="'/host/' + host.key" class="header item">
+                        {{ host.label }}
+                    </router-link>
+                </td>
+                <td>{{ host.key }}</td>
+                <td v-html="statusLabel"></td>
+            </tr>
+        </template>
+
+        <template id="home">
+            <div class="container">
+                <table class="ui single line table">
+                    <thead>
+                        <tr>
+                            <th>Host</th>
+                            <th>Key</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="host in hosts" class="">
+                            <td>
+                                <router-link :to="'/host/' + host.key" class="header item">
+                                    {{ host.label }}
+                                </router-link>
+                            </td>
+                            <td>{{ host.key }}</td>
+                            <td v-html="statusLabel(host)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+
+
+        <div id="app">
+
+            <!-- menu -->
+            <div class="ui attached menu">
+                <div class="ui container">
+                    <router-link to="/" class="header item">
+                        Mowos-Monitor
+                    </router-link>
+                </div>
+            </div>
+
+            <!-- content -->
+            <router-view class="ui container" style="margin-top: 20px"></router-view>
+        </div>
+
+        <script src="js/vendor/vue.js"></script>
+        <script src="js/vendor/vue-router.js"></script>
+
+        <script src="js/app.js"></script>
+    </body>
+</html>
+
+<!--
+<div class="ui card host-box">
+    <div class="content">
+        <div class="header">
+            <router-link :to="'/host/' + host.key" class="header item">
+                {{ host.label }}
+            </router-link>
+        </div>
+    </div>
+    <div class="content" style="padding: 0">
+        <table :class="statusColor" class="ui single line table">
+            <tr>
+                <td>Key</td>
+                <td>{{ host.key }}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td v-html="statusLabel"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+-->

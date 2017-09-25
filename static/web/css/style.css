@@ -1,0 +1,8 @@
+.host-box .ui.table tr td {
+    border-radius: 0;
+    font-family: monospace;
+}
+
+.ui.card, .ui.cards > .card.host-box {
+    border-radius: 0;
+}

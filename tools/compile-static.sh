@@ -4,4 +4,5 @@
 
 rootPath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
-go-bindata -prefix "static/" -pkg "mowos" -o "$rootPath/bindata.go" "$rootPath/static/..."
+# ignore all the web stuff atm
+go-bindata -ignore "web/" -prefix "static/" -pkg "mowos" -o "$rootPath/bindata.go" "$rootPath/static/..."
