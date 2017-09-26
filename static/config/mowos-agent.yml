@@ -2,6 +2,10 @@ agent:
     listen-ip: "0.0.0.0"
     listen-port: "11050"
 
+psk:
+    key: "32-bit-long-key"
+    identity: "PSK001"
+
 items:
     - type: "service"
       key: "samba-server"

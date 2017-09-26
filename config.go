@@ -10,6 +10,12 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// PSK is a psk structure in a config file
+type PSK struct {
+	Key      string `yaml:"key"`
+	Identity string `yaml:"identity"`
+}
+
 // LoadConfigFile loads unmarshalls a file into an object (pointer)
 func LoadConfigFile(path string, obj interface{}) error {
 	fileContent, err := ioutil.ReadFile(path)

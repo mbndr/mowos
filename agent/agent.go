@@ -57,9 +57,6 @@ func runAgent(c *cli.Context) error {
 
 	mowos.Log.Info("listening on tcp ", addr)
 
-	// save memory
-	config = nil
-
 	// accept connections
 	for {
 		conn, err := l.Accept()
@@ -80,15 +77,17 @@ func handleRequest(conn net.Conn, disp *dispatcher) {
 	}()
 	mowos.Log.Debug("new connection to " + conn.RemoteAddr().String())
 
+	// CRYPTO
+	mowos.UsedCryptor = mowos.NewPSKCryptor(
+		[]byte(config.PSK.Key),
+		[]byte(config.PSK.Identity),
+	)
+
 	// read message
 	msg, err := mowos.ReadBytes(bufio.NewReader(conn))
 	if err != nil {
 		mowos.Log.Error(errors.Wrap(err, "error reading"))
 	}
-
-	// CRYPTO
-	// strip identity
-	// decrypt with key of identity
 
 	mowos.Log.Debugf("%#v", string(msg))
 

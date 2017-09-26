@@ -9,6 +9,7 @@ import (
 var stopChar = []byte("\r\n\r\n")
 
 // ReadBytes reads the bytes from a connection until the end symbol appears
+// and decrypts the data.
 // Reader as param so that unit tests will be easier.
 func ReadBytes(r *bufio.Reader) ([]byte, error) {
 
@@ -31,13 +32,38 @@ func ReadBytes(r *bufio.Reader) ([]byte, error) {
 
 	}
 
-	trimmed := bytes.TrimSuffix(buf.Bytes(), stopChar)
-	return trimmed, nil
+	data := bytes.TrimSuffix(buf.Bytes(), stopChar)
+
+	Log.Debugf("RECEIVING (RAW): %#v", string(data))
+
+	// decrypt if a cryptor is set
+	if UsedCryptor != nil {
+		decr, err := UsedCryptor.decrypt(data)
+		if err != nil {
+			return nil, err
+		}
+		data = decr
+	}
+
+	Log.Debugf("RECEIVING (DECR): %#v", string(data))
+
+	return data, nil
 }
 
-// SendBytes sends data over tcp
-func SendBytes(w io.Writer, data []byte) {
+// SendBytes sends data over tcp after encrypting
+func SendBytes(w io.Writer, data []byte) error {
+
+	// encrypt if a cryptor is set
+	if UsedCryptor != nil {
+		encr, err := UsedCryptor.encrypt(data)
+		if err != nil {
+			return err
+		}
+		data = encr
+	}
+
 	w.Write(data)
 	w.Write(stopChar)
-	//Log.Debugf("wrote %d bytes", nm + ne)
+
+	return nil
 }

@@ -7,3 +7,6 @@ hosts:
       description: "Small home server (RPI) for Samba"
       ip: "10.0.40.11"
       port: "11050"
+      psk:
+          key: "32-bit-long-key"
+          identity: "PSK001"

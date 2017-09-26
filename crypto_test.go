@@ -9,6 +9,7 @@ import (
 func TestPSKCryptor(t *testing.T) {
 	c := &PSKCryptor{
 		key: []byte("5g9hwlkq4j9w8hpmbcc319d5ßdkde3d"),
+		// identity is only needed if sending
 	}
 
 	str := []byte("Only a string for testing encryption")

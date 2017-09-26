@@ -1,9 +1,9 @@
 package monitor
 
 import (
-	/*"bufio"
+	"bufio"
 	"encoding/json"
-	"net"*/
+	"net"
 
 	"github.com/pkg/errors"
 	"github.com/urfave/cli"
@@ -31,38 +31,40 @@ func runMonitor(c *cli.Context) error {
 	mowos.Log.Infof("starting %s version %s", c.App.Name, c.App.Version)
 
 	// init web server
-	return startWebServer()
+	//return startWebServer()
 
-	/*
-		// DEBUG: send one request
-		addr := config.Hosts[0].IP + ":" + config.Hosts[0].Port
-		conn, err := net.Dial("tcp", addr)
-		if err != nil {
-			return err
-		}
+	// DEBUG: send one request
+	host := config.Hosts[0]
 
-		// CRYPTO
-		// get psk and identity (config)
-		// encrypt data
-		// add identity on beginning of []byte
+	addr := host.IP + ":" + host.Port
+	conn, err := net.Dial("tcp", addr)
+	if err != nil {
+		return err
+	}
 
-		// send to agent
-		mowos.SendBytes(conn, []byte("REQUEST"))
+	// CRYPTO
+	mowos.UsedCryptor = mowos.NewPSKCryptor(
+		[]byte(host.PSK.Key),
+		[]byte(host.PSK.Identity),
+	)
 
-		// get raw response
-		raw, err := mowos.ReadBytes(bufio.NewReader(conn))
-		if err != nil {
-			mowos.Log.Error(errors.Wrap(err, "reading"))
-		}
+	// send to agent
+	mowos.SendBytes(conn, []byte("REQUEST"))
 
-		// convert to object
-		reply := make(mowos.AgentResponse)
-		err = json.Unmarshal(raw, &reply)
-		if err != nil {
-			mowos.Log.Error(errors.Wrap(err, "converting"))
-		}
+	// get raw response
+	raw, err := mowos.ReadBytes(bufio.NewReader(conn))
+	if err != nil {
+		mowos.Log.Error(errors.Wrap(err, "reading"))
+	}
 
-		mowos.Log.Warnf("%#v", reply)
-	*/
+	// convert to object
+	reply := make(mowos.AgentResponse)
+	err = json.Unmarshal(raw, &reply)
+	if err != nil {
+		mowos.Log.Error(errors.Wrap(err, "converting"))
+	}
+
+	mowos.Log.Warnf("%#v", reply)
+
 	return nil
 }
