@@ -2,40 +2,31 @@
 // sources:
 // static/config/mowos-agent.yml
 // static/config/mowos-monitor.yml
+// static/web/css/style.css
+// static/web/css/vendor/semantic.min.css
+// static/web/index.html
+// static/web/js/app.js
+// static/web/js/vendor/vue-router.js
+// static/web/js/vendor/vue.js
 // DO NOT EDIT!
 
 package mowos
 
 import (
-	"bytes"
-	"compress/gzip"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 )
 
-func bindataRead(data []byte, name string) ([]byte, error) {
-	gz, err := gzip.NewReader(bytes.NewBuffer(data))
+// bindataRead reads the given file from disk. It returns an error on failure.
+func bindataRead(path, name string) ([]byte, error) {
+	buf, err := ioutil.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("Read %q: %v", name, err)
+		err = fmt.Errorf("Error reading asset %s at %s: %v", name, path, err)
 	}
-
-	var buf bytes.Buffer
-	_, err = io.Copy(&buf, gz)
-	clErr := gz.Close()
-
-	if err != nil {
-		return nil, fmt.Errorf("Read %q: %v", name, err)
-	}
-	if clErr != nil {
-		return nil, err
-	}
-
-	return buf.Bytes(), nil
+	return buf, err
 }
 
 type asset struct {
@@ -43,70 +34,148 @@ type asset struct {
 	info  os.FileInfo
 }
 
-type bindataFileInfo struct {
-	name    string
-	size    int64
-	mode    os.FileMode
-	modTime time.Time
-}
-
-func (fi bindataFileInfo) Name() string {
-	return fi.name
-}
-func (fi bindataFileInfo) Size() int64 {
-	return fi.size
-}
-func (fi bindataFileInfo) Mode() os.FileMode {
-	return fi.mode
-}
-func (fi bindataFileInfo) ModTime() time.Time {
-	return fi.modTime
-}
-func (fi bindataFileInfo) IsDir() bool {
-	return false
-}
-func (fi bindataFileInfo) Sys() interface{} {
-	return nil
-}
-
-var _configMowosAgentYml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x8c\x8d\x41\x0e\xc2\x20\x10\x45\xf7\x9c\xe2\x67\xf6\x18\xba\x70\xc3\x01\xbc\x80\x27\x40\x33\x35\x13\x01\x09\x8c\x36\xbd\xbd\xc1\xda\xa8\x5d\x19\x76\xff\xf1\xde\x84\x0b\x67\xf5\x06\x00\xa2\x34\xe5\x6c\xa5\x78\x90\xdb\xbd\x1e\x7d\x83\x72\xab\xea\x41\xc3\xe0\xf6\x8e\x8c\x11\xe5\xd4\x16\xd3\x42\xe7\xc2\x1e\xd4\xb8\x3e\xe4\xcc\x8b\x06\x5c\x79\xee\x63\x48\xa7\x60\x3b\xe2\xba\x92\x1c\x52\xff\x7f\xec\x08\xbf\xe8\xdd\x58\x45\x32\x7f\x9c\x18\xa5\xf2\x14\x62\xdc\xe4\x0f\x9b\xf9\x93\xbe\x8f\x13\x99\x67\x00\x00\x00\xff\xff\x02\x42\x32\xcd\xfc\x00\x00\x00")
-
-func configMowosAgentYmlBytes() ([]byte, error) {
-	return bindataRead(
-		_configMowosAgentYml,
-		"config/mowos-agent.yml",
-	)
-}
-
+// configMowosAgentYml reads file data from disk. It returns an error on failure.
 func configMowosAgentYml() (*asset, error) {
-	bytes, err := configMowosAgentYmlBytes()
+	path := "/vagrant/gopath/src/github.com/mbndr/mowos/static/config/mowos-agent.yml"
+	name := "config/mowos-agent.yml"
+	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "config/mowos-agent.yml", size: 252, mode: os.FileMode(436), modTime: time.Unix(1506261598, 0)}
-	a := &asset{bytes: bytes, info: info}
-	return a, nil
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
 }
 
-var _configMowosMonitorYml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x4c\xce\x41\xaa\xc2\x30\x10\xc6\xf1\x7d\x4e\xf1\x31\xab\xf7\x16\x0d\x13\x51\x2c\x39\x81\xee\xc4\x9e\x20\xea\x48\x03\x4d\xa6\x24\xc1\xf3\x8b\xc4\x82\xdb\x99\xef\x0f\xbf\xa4\x39\x36\x2d\xde\x00\xc0\x12\x6b\x93\x3c\xc4\xd5\x83\xdc\xee\x68\xd9\xb2\x75\xf4\xfb\x5a\xb5\x34\x0f\x1a\x79\x64\x32\x66\xd6\xda\x6a\x4f\x07\xe4\x90\xc4\x83\x4e\x9a\xa4\x4a\x79\x49\xe9\x21\xf0\x90\x7a\x2f\x71\x6d\x51\xb3\x07\x4d\x29\x2c\x0b\x66\x4d\x82\x3e\xc3\xdf\xf5\x72\xfe\xc7\x53\x0b\xa6\x90\x6e\x61\xcb\xba\xe2\x43\xd8\xb3\x75\x6e\x3b\x7f\x05\xce\xf1\x81\xc9\xbc\x03\x00\x00\xff\xff\x5a\x9d\xda\x81\xbf\x00\x00\x00")
-
-func configMowosMonitorYmlBytes() ([]byte, error) {
-	return bindataRead(
-		_configMowosMonitorYml,
-		"config/mowos-monitor.yml",
-	)
-}
-
+// configMowosMonitorYml reads file data from disk. It returns an error on failure.
 func configMowosMonitorYml() (*asset, error) {
-	bytes, err := configMowosMonitorYmlBytes()
+	path := "/vagrant/gopath/src/github.com/mbndr/mowos/static/config/mowos-monitor.yml"
+	name := "config/mowos-monitor.yml"
+	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "config/mowos-monitor.yml", size: 191, mode: os.FileMode(436), modTime: time.Unix(1506277811, 0)}
-	a := &asset{bytes: bytes, info: info}
-	return a, nil
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// webCssStyleCss reads file data from disk. It returns an error on failure.
+func webCssStyleCss() (*asset, error) {
+	path := "/vagrant/gopath/src/github.com/mbndr/mowos/static/web/css/style.css"
+	name := "web/css/style.css"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// webCssVendorSemanticMinCss reads file data from disk. It returns an error on failure.
+func webCssVendorSemanticMinCss() (*asset, error) {
+	path := "/vagrant/gopath/src/github.com/mbndr/mowos/static/web/css/vendor/semantic.min.css"
+	name := "web/css/vendor/semantic.min.css"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// webIndexHtml reads file data from disk. It returns an error on failure.
+func webIndexHtml() (*asset, error) {
+	path := "/vagrant/gopath/src/github.com/mbndr/mowos/static/web/index.html"
+	name := "web/index.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// webJsAppJs reads file data from disk. It returns an error on failure.
+func webJsAppJs() (*asset, error) {
+	path := "/vagrant/gopath/src/github.com/mbndr/mowos/static/web/js/app.js"
+	name := "web/js/app.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// webJsVendorVueRouterJs reads file data from disk. It returns an error on failure.
+func webJsVendorVueRouterJs() (*asset, error) {
+	path := "/vagrant/gopath/src/github.com/mbndr/mowos/static/web/js/vendor/vue-router.js"
+	name := "web/js/vendor/vue-router.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// webJsVendorVueJs reads file data from disk. It returns an error on failure.
+func webJsVendorVueJs() (*asset, error) {
+	path := "/vagrant/gopath/src/github.com/mbndr/mowos/static/web/js/vendor/vue.js"
+	name := "web/js/vendor/vue.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
 }
 
 // Asset loads and returns the asset for the given name.
@@ -161,8 +230,14 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"config/mowos-agent.yml":   configMowosAgentYml,
-	"config/mowos-monitor.yml": configMowosMonitorYml,
+	"config/mowos-agent.yml":          configMowosAgentYml,
+	"config/mowos-monitor.yml":        configMowosMonitorYml,
+	"web/css/style.css":               webCssStyleCss,
+	"web/css/vendor/semantic.min.css": webCssVendorSemanticMinCss,
+	"web/index.html":                  webIndexHtml,
+	"web/js/app.js":                   webJsAppJs,
+	"web/js/vendor/vue-router.js":     webJsVendorVueRouterJs,
+	"web/js/vendor/vue.js":            webJsVendorVueJs,
 }
 
 // AssetDir returns the file names below a certain
@@ -209,6 +284,22 @@ var _bintree = &bintree{nil, map[string]*bintree{
 	"config": &bintree{nil, map[string]*bintree{
 		"mowos-agent.yml":   &bintree{configMowosAgentYml, map[string]*bintree{}},
 		"mowos-monitor.yml": &bintree{configMowosMonitorYml, map[string]*bintree{}},
+	}},
+	"web": &bintree{nil, map[string]*bintree{
+		"css": &bintree{nil, map[string]*bintree{
+			"style.css": &bintree{webCssStyleCss, map[string]*bintree{}},
+			"vendor": &bintree{nil, map[string]*bintree{
+				"semantic.min.css": &bintree{webCssVendorSemanticMinCss, map[string]*bintree{}},
+			}},
+		}},
+		"index.html": &bintree{webIndexHtml, map[string]*bintree{}},
+		"js": &bintree{nil, map[string]*bintree{
+			"app.js": &bintree{webJsAppJs, map[string]*bintree{}},
+			"vendor": &bintree{nil, map[string]*bintree{
+				"vue-router.js": &bintree{webJsVendorVueRouterJs, map[string]*bintree{}},
+				"vue.js":        &bintree{webJsVendorVueJs, map[string]*bintree{}},
+			}},
+		}},
 	}},
 }}
 
